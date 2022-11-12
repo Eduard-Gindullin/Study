@@ -48,4 +48,4 @@ for page in range(0,40):
 
                 with open("data.json","w",encoding='utf-8') as jsonfile:
                     json.dump(items,jsonfile, ensure_ascii=False)
-                
+                1212345
