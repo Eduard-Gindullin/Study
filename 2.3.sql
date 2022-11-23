@@ -66,10 +66,10 @@ VALUES
     ('Poliaykov', '2001-01-01', '2005', 'Data_Engineer', 'middle', 120000, 1, False),
     ('Smirnova', '1999-07-29', '2006', 'Data_Engineer', 'senior', 150000, 1, True),
     ('Gilmanov', '1995-08-27', '2007', 'Data_Engineer', 'junior', 80000, 1, False),
-    ('Vorobieva', '2002-02-11', '2008', 'Data_Analist', 'middle', 150000, 1, True),
-    ('Sinitsina', '1997-09-21', '2009', 'Data_Engineer', 'middle', 150000, 1, False),
-    ('Galkina', '1987-07-14', '2010', 'Data_Engineer', 'middle', 150000, 1, False),
-    ('Voronov', '2003-01-17', '2011', 'Data_Engineer', 'middle', 150000, 1, False),
-    ('Yastrebov', '1977-07-23', '2012', 'Data_Engineer', 'middle', 150000, 1, False),
-    jhg
+    ('Vorobieva', '2002-02-11', '2008', 'Data_Analist', 'middle', 150000, 2, True),
+    ('Sinitsina', '1997-09-21', '2009', 'Data_Analist', 'junior', 90000, 2, False),
+    ('Galkina', '1987-07-14', '2010', 'Data_Engineer', 'middle', 100000, 3, True),
+    ('Voronov', '2003-01-17', '2011', 'Data_Engineer', 'middle', 90000, 3, False),
+    ('Yastrebov', '1977-07-23', '2012', 'Data_Engineer', 'junior', 80000, 3, False),
+
     
