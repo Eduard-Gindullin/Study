@@ -71,3 +71,5 @@ VALUES
     ('Galkina', '1987-07-14', '2010', 'Data_Engineer', 'middle', 150000, 1, False),
     ('Voronov', '2003-01-17', '2011', 'Data_Engineer', 'middle', 150000, 1, False),
     ('Yastrebov', '1977-07-23', '2012', 'Data_Engineer', 'middle', 150000, 1, False),
+    jhg
+    
