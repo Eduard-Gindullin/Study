@@ -1,52 +1,28 @@
-import httpx
-import asyncio
-from collections import deque
+# Imports
+#import sqlite3
+import requests
 import feedparser
+import pandahouse as ph
+import random
+import clickhouse_connect
+import pandas as pd
+import numpy as np
 
-async def rss_parser(httpx_client, posted_q,
-                     n_test_chars, send_message_func=None):
-    '''Парсер rss ленты'''
 
-    rss_link = 'https://www.vedomosti.ru/rss/news'
+# DB
 
-    while True:
-        try:
-            response = await httpx_client.get(rss_link)
-        except:
-            await asyncio.sleep(10)
-            continue
 
-        feed = feedparser.parse(response.text)
 
-        for entry in feed.entries[::-1]:
-            summary = entry['summary']
-            title = entry['title']
 
-            news_text = f'{title}\n{summary}'
+d = feedparser.parse('https://www.vedomosti.ru/rss/news')
+d['feed']['title']
+data_list = []
 
-            head = news_text[:n_test_chars].strip()
-
-            if head in posted_q:
-                continue
-
-            if send_message_func is None:
-                print(news_text, '\n')
-            else:
-                await send_message_func(f'rbc.ru\n{news_text}')
-
-            posted_q.appendleft(head)
-
-        await asyncio.sleep(5)
-print(news_text)
-
-#if __name__ == "__main__":
-
-    # Очередь из уже опубликованных постов, чтобы их не дублировать
- #   posted_q = deque(maxlen=20)
-
-    # 50 первых символов от текста новости - это ключ для проверки повторений
-  #  n_test_chars = 50
-
-   # httpx_client = httpx.AsyncClient()
-
-    #asyncio.run(rss_parser(httpx_client, posted_q, n_test_chars))
+for i in d["entries"]:
+     data_list.append([i["title"],i["link"],i["tags"],i["published"]])
+      
+for j in d["entries"][i].tags[j].term:
+        data_list.append([j["term"]])
+df = pd.DataFrame(data_list, columns=["title","link","tags","published"])
+ 
+print(df)
