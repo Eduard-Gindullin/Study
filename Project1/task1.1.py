@@ -17,7 +17,7 @@ client.command('CREATE TABLE IF NOT EXISTS vedomosti (title String, link String,
 
 
 d = feedparser.parse('https://www.vedomosti.ru/rss/news')
-d['feed']['title']
+
 data_list = []
 
 for i in d["entries"]:
