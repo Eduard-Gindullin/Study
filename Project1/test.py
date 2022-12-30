@@ -16,13 +16,12 @@ import numpy as np
 
 d = feedparser.parse('https://www.vedomosti.ru/rss/news')
 d['feed']['title']
+print(d.feed)
 data_list = []
 
 for i in d["entries"]:
      data_list.append([i["title"],i["link"],i["tags"],i["published"]])
       
-for j in d["entries"][i].tags[j].term:
-        data_list.append([j["term"]])
+
 df = pd.DataFrame(data_list, columns=["title","link","tags","published"])
  
-print(df)
