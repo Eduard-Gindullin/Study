@@ -9,4 +9,12 @@ connection = dict(database='default',
                   user='default',
                   password='')
 client = clickhouse_connect.get_client(host='localhost', username='default', password='')
-client.command('CREATE TABLE IF NOT EXISTS vedomosti (title String, date String) ENGINE MergeTree ORDER BY title')
+client.command('CREATE TABLE IF NOT EXISTS all news (title String, link String,tags String, published String) ENGINE MergeTree ORDER BY published')
+client.command('CREATE TABLE IF NOT EXISTS all news (title String, link String,tags String, published String) ENGINE MergeTree ORDER BY published')
+
+published = []
+published.append(client.command('Select DISTINCT title, published from vedomosti'))
+data_list2 = []
+for j in published:
+  data_list2.append([j["title"],j["published"]])
+df1 = pd.DataFrame(data_list2, columns=['title',"published"])
