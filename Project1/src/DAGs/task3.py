@@ -10,7 +10,7 @@ connection = dict(database='default',
                   password='')
 client = clickhouse_connect.get_client(host='localhost', username='default', password='')
 client.command('CREATE TABLE IF NOT EXISTS all news (title String, link String,tags String, published String) ENGINE MergeTree ORDER BY published')
-client.command('CREATE TABLE IF NOT EXISTS all news (title String, link String,tags String, published String) ENGINE MergeTree ORDER BY published')
+client.command('CREATE TABLE IF NOT EXISTS all caterories (category id Int, category name String,tags String) ENGINE MergeTree ORDER BY published')
 
 published = []
 published.append(client.command('Select DISTINCT title, published from vedomosti'))
