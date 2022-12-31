@@ -14,7 +14,7 @@ time = last_published[3]
 d = feedparser.parse('https://lenta.ru/rss/')
 data_list = []
 for i in d['entries']:
-    data_list.append([i["summary"],i["link"],i["tags"],i["published"]])
+    data_list.append([i["summary"],i["link"],i["tags"][0].term,i["published"]])
 df = pd.DataFrame(data_list, columns=["summary","link","tags","published"])
 df1 = df[df['published'] > time]
 ph.to_clickhouse(df1, 'lenta', index=False, chunksize=100000, connection=connection)

@@ -12,7 +12,7 @@ pd.set_option('display.max_rows',None)
 d = feedparser.parse('https://lenta.ru/rss/')
 data_list = []
 for i in d['entries']:
-    data_list.append([i["summary"],i["link"],i["tags"],i["published"]])
+    data_list.append([i["summary"],i["link"],i["tags"][0].term,i["published"]])
 df = pd.DataFrame(data_list, columns=["summary","link","tags","published"])
 
 client = clickhouse_connect.get_client(host='localhost', username='default', password='')

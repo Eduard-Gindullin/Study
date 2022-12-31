@@ -12,7 +12,7 @@ pd.set_option('display.max_rows',None)
 d = feedparser.parse('https://tass.ru/rss/v2.xml')
 data_list = []
 for i in d["entries"]:
-    data_list.append([i["title"],i["link"],i["tags"],i["published"]])
+    data_list.append([i["title"],i["link"],i["tags"][0].term,i["published"]])
 df = pd.DataFrame(data_list, columns=["title","link","tags","published"])
 client = clickhouse_connect.get_client(host='localhost', username='default', password='')
 client.command('CREATE TABLE IF NOT EXISTS tass (title String, link String,tags String, published String)ENGINE MergeTree ORDER BY published')
