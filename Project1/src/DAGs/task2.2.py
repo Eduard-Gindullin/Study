@@ -17,9 +17,9 @@ d = feedparser.parse('https://www.vedomosti.ru/rss/news')
 data_list = []
 for i in d['entries']:
     data_list.append([i["title"],i["link"],i["tags"][0].term,i["published"]])
-df = pd.DataFrame(data_list, columns=["summary","link","tags","published"])
+df = pd.DataFrame(data_list, columns=["title","link","tags","published"])
 df1 = df[df['published'] < time]
-ph.to_clickhouse(df1, 'lenta', index=False, chunksize=100000, connection=connection)
+ph.to_clickhouse(df1, 'vedomosti', index=False, chunksize=100000, connection=connection)
 
 #df1 = df[df['title'] != published()]
 #ph.to_clickhouse(df, 'vedomosti', index=False, chunksize=100000, connection=connection)
