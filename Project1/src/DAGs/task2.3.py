@@ -18,4 +18,5 @@ for i in d['entries']:
 df = pd.DataFrame(data_list, columns=["title","link","tags","published"])
 df1 = df[df['published'] < time]
 ph.to_clickhouse(df1, 'tass', index=False, chunksize=100000, connection=connection)
+client.command('OPTIMIZE TABLE lenta FINAL DEDUPLICATE')
 print(df1)
