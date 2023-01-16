@@ -47,4 +47,4 @@ df1 = df[df['published'] > time]
 ph.to_clickhouse(df1, 'tassRSS', index=False, chunksize=100000, connection=connection)
 client.command('OPTIMIZE TABLE vedomostiRSS FINAL DEDUPLICATE')
 
-print(time)
+print(df1)
