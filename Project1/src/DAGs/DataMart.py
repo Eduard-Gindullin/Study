@@ -1,9 +1,6 @@
 import pandahouse as ph
 import clickhouse_connect
 import pandas as pd
-
-#print(data_list4)
-
 import clickhouse2pandas as ch2pd
 
 connection_url = 'http://default:@localhost:8123'
@@ -19,11 +16,6 @@ df3= ch2pd.select(connection_url, query3)
 
 df4 = pd.merge(df1,df2, how='outer')
 df5 = pd.merge(df4,df3, how='outer')
-
-
-
-
-
 
 # Общее количество новостей по категории Общество за все время со всех источников
 total_category_count = df5['category_id'].value_counts()[2]
@@ -51,7 +43,7 @@ total_category_count_byDay = df5[df5['category_id'] == 2]["published"].dt.date.v
 mean_category_daily = sum(total_category_count_byDay)/len(total_category_count_byDay)
 
 # Выведем день в который было максимально колличество публикаций по категории Общество
-max_category_count_day = df5[df5['category_id'] == 2]["published"].dt.date.value_counts().nlargest(1)
+max_category_count_day = df5[df5['category_id'] == 2]["published"].dt.date.value_counts().nlargest(1).index[0]
 
 # Количество публикаций по теме Общество по дням недели
 category_count_byWeekDay = df5[df5['category_id'] == 2]["published"].dt.day_name().value_counts()
@@ -68,19 +60,14 @@ variables = {'category_id':2,
              'day_category_count_tass':day_category_count_tass,
              'mean_category_daily':mean_category_daily,
              'max_category_count_day':max_category_count_day,
-             'category_count_byWeekDay':category_count_byWeekDay}
+             'category_count_Monday':category_count_byWeekDay['Monday'],
+             'category_count_Tuesday':category_count_byWeekDay['Tuesday'],
+             'category_count_Wednesday':category_count_byWeekDay['Wednesday'],
+             'category_count_Thursday':category_count_byWeekDay['Thursday'],
+             'category_count_Friday':category_count_byWeekDay['Friday'],
+             'category_count_Saturday':category_count_byWeekDay['Saturday'],
+             'category_count_Sunday':category_count_byWeekDay['Sunday']}
 
-DataMart = pd.DataFrame(variables, index=[1])
+DataMart = pd.DataFrame(variables, index=[1]).T
 
-#new_row = {'name':'Geo', 'physics':87, 'chemistry':92, 'algebra':97} #append row to the dataframe df_marks = df_marks.append(new_row, ignore_index=True)
-#df_marks = df_marks.append(new_row, ignore_index=True)
-
-print(max_category_count_day)
-#print(df6)
-
-""" published = []
-published.append(client.command('Select DISTINCT title, published from vedomosti'))
-data_list2 = []
-for j in published:
-  data_list2.append([j["title"],j["published"]])
-df1 = pd.DataFrame(data_list2, columns=['title',"published"]) """
+print(DataMart)

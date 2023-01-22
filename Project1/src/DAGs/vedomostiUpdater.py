@@ -1,19 +1,21 @@
+# Импортируем библиотеки
 import pandahouse as ph
 import feedparser
 import clickhouse_connect
 import pandas as pd
 import numpy as np
 
+# Подключаемся к БД
 client = clickhouse_connect.get_client(host='localhost', username='default', password='')
-
 connection = dict(database='default',
                   host='http://localhost:8123',
                   user='default',
                   password='')
-
-
 last_published = client.command('Select * from vedomostiRSS where published IN (SELECT MAX(`published`) as `time` FROM `vedomostiRSS`)')
+# Подключаемся к БД
 time = last_published[4]
+
+# Парсим все что нам готова дать RSS
 d = feedparser.parse('https://www.vedomosti.ru/rss/news')
 data_list = []
 for i in d['entries']:
@@ -21,6 +23,7 @@ for i in d['entries']:
 df = pd.DataFrame(data_list, columns=["title","link","tags","published"])
 df['published'] = df['published'].astype('datetime64[ns]')
 
+# Копируем классификатор по категориям
 conditions = [(df['tags'] == 'Политика') , (df['tags'] == 'Общество'), (df['tags'] == 'Бизнес'), (df['tags'] == 'Экономика'), (df['tags'] == 'Финансы'), (df['tags'] == 'Медиа'), (df['tags'] == 'Авто'), (df['tags'] == 'Политика / Власть'), 
 (df['tags'] == 'Политика / Международные отношения'), (df['tags'] == 'Технологии'), (df['tags'] == 'Среда обитания'), (df['tags'] == 'Недвижимость'), (df['tags'] == 'Экономика и бизнес'), (df['tags'] == 'Армия и ОПК'), (df['tags'] == 'Происшествия'),
 (df['tags'] == 'Культура'), (df['tags'] == 'НедвижимостьОбщество'), (df['tags'] == 'Международная панорама'), (df['tags'] == 'Спорт'), (df['tags'] == 'Москва'), (df['tags'] == 'Северный Кавказ'), (df['tags'] == 'Космос'), (df['tags'] == 'Биографии и справки'),
@@ -38,13 +41,8 @@ conditions1 = [(df['tags'] == 'Политика'), (df['tags'] == 'Общест�
 choices1 = [1,2,3,4,5,6,7,8]
 df['category_id'] = np.select(conditions1, choices1, default=0)
 
-
-client = clickhouse_connect.get_client(host='localhost', username='default', password='')
-connection = dict(database='default',
-                  host='http://localhost:8123',
-                  user='default',
-                  password='')
-
+# Делаем выборку из спарсеного ДФ по дате и времени публикации, забираем 
+# только новое и дописываем в БД
 df1 = df[df['published'] > time]
 ph.to_clickhouse(df1, 'vedomostiRSS', index=False, chunksize=100000, connection=connection)
 client.command('OPTIMIZE TABLE vedomostiRSS FINAL DEDUPLICATE')

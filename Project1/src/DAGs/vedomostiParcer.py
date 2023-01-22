@@ -1,9 +1,11 @@
+# Импортируем библиотеки
 import feedparser
 import pandahouse as ph
 import clickhouse_connect
 import pandas as pd
 import numpy as np
 
+# Парсим данные
 d = feedparser.parse('https://www.vedomosti.ru/rss/news')
 data_list = []
 for i in d['entries']:
@@ -11,6 +13,7 @@ for i in d['entries']:
 df = pd.DataFrame(data_list, columns=["title","link","tags","published"])
 df['published'] = df['published'].astype('datetime64[ns]')
 
+# Создаем классификатор по категориям
 conditions = [(df['tags'] == 'Политика') , (df['tags'] == 'Общество'), (df['tags'] == 'Бизнес'), (df['tags'] == 'Экономика'), (df['tags'] == 'Финансы'), (df['tags'] == 'Медиа'), (df['tags'] == 'Авто'), (df['tags'] == 'Политика / Власть'), 
 (df['tags'] == 'Политика / Международные отношения'), (df['tags'] == 'Технологии'), (df['tags'] == 'Среда обитания'), (df['tags'] == 'Недвижимость'), (df['tags'] == 'Экономика и бизнес'), (df['tags'] == 'Армия и ОПК'), (df['tags'] == 'Происшествия'),
 (df['tags'] == 'Культура'), (df['tags'] == 'НедвижимостьОбщество'), (df['tags'] == 'Международная панорама'), (df['tags'] == 'Спорт'), (df['tags'] == 'Москва'), (df['tags'] == 'Северный Кавказ'), (df['tags'] == 'Космос'), (df['tags'] == 'Биографии и справки'),
@@ -28,7 +31,7 @@ conditions1 = [(df['tags'] == 'Политика'), (df['tags'] == 'Общест�
 choices1 = [1,2,3,4,5,6,7,8]
 df['category_id'] = np.select(conditions1, choices1, default=0)
 
-
+# Создадим табличку в БД и запишем наши данные
 client = clickhouse_connect.get_client(host='localhost', username='default', password='')
 client.command('CREATE TABLE IF NOT EXISTS vedomostiRSS (title String, link String,tags String, category_id Int32, published DateTime) ENGINE MergeTree ORDER BY published')
 connection = dict(database='default',
@@ -36,7 +39,5 @@ connection = dict(database='default',
                   user='default',
                   password='')
 ph.to_clickhouse(df, 'vedomostiRSS', index=False, chunksize=100000, connection=connection)
-
+# Если были дубликаты - удаляем
 client.command('OPTIMIZE TABLE vedomostiRSS FINAL DEDUPLICATE')
-
-print(df)
