@@ -2,7 +2,6 @@
 import pandahouse as ph
 import clickhouse_connect
 import pandas as pd
-import numpy as np
 import clickhouse2pandas as ch2pd
 
 # Настраиваем подключение к БД
