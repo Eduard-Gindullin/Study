@@ -32,10 +32,10 @@ choices1 = [1,2,3,4,5,6,7,8]
 df['category_id'] = np.select(conditions1, choices1, default=0)
 
 # Создадим табличку в БД и запишем наши данные
-client = clickhouse_connect.get_client(host='localhost', username='default', password='')
+client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
 client.command('CREATE TABLE IF NOT EXISTS tassRSS (title String, link String,tags String, category_id Int32, published DateTime) ENGINE MergeTree ORDER BY published')
 connection = dict(database='default',
-                  host='http://localhost:8123',
+                  host='http://192.168.3.18:8123',
                   user='default',
                   password='')
 ph.to_clickhouse(df, 'tassRSS', index=False, chunksize=100000, connection=connection)
