@@ -1,36 +1,18 @@
 # Импортируем библиотеки
-
-from datetime import datetime, timedelta
+from datetime import datetime
 from airflow.operators.python import PythonOperator
-
-from airflow.models import Variable
 from airflow import DAG
 from airflow.operators.bash import BashOperator
-from airflow.hooks.base import BaseHook
 from airflow import DAG
+import pandahouse as ph
+import clickhouse_connect
+import pandas as pd
+import numpy as np
+import feedparser
 
 
-from airflow.utils.dates import days_ago
-
-
-# with DAG (
-# dag_id=
-#     "final_project_dag", start_date=datetime(2023, 1, 22),
-#     schedule_interval="23-25 6 30 12 *",
-#     default_args=default_dag_args,
-# ) as dag:
 def lentaparcer():
- import feedparser
- from airflow_clickhouse_plugin.operators.clickhouse_operator import ClickHouseOperator
- from airflow_clickhouse_plugin.sensors.clickhouse_sql_sensor import ClickHouseSqlSensor
 
- from airflow.utils.dates import days_ago
- import clickhouse2pandas as ch2pd
- from clickhouse_driver import Client
- import pandahouse as ph
- import clickhouse_connect
- import pandas as pd
- import numpy as np
 # Парсим данные
  d = feedparser.parse('https://lenta.ru/rss/')
  data_list = []
@@ -58,15 +40,15 @@ def lentaparcer():
 (df['tags'] == 'Спорт и здоровье')]
  choices1 = [1,2,3,4,5,6,7,8]
  df['category_id'] = np.select(conditions1, choices1, default=0)
- #client = clickhouse_connect.get_client(host='localhost', username='default', password='')
- #client.command('CREATE TABLE IF NOT EXISTS lentaRSS1 (title String, link String,tags String, category_id Int32, published DateTime) ENGINE MergeTree ORDER BY published')
- #connection = dict(database='default',
- #                 host='http://localhost:8123',
- #                 user='default',
- #                 password='')
- #ph.to_clickhouse(df, 'lentaRSS', index=False, chunksize=100000, connection=connection)
-# Если были дубликаты - удаляем
- #client.command('OPTIMIZE TABLE lentaRSS FINAL DEDUPLICATE')
+ client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
+ client.command('CREATE TABLE IF NOT EXISTS lentaRSS1 (title String, link String,tags String, category_id Int32, published DateTime) ENGINE MergeTree ORDER BY published')
+ connection = dict(database='default',
+                 host='http://192.168.3.18:8123',
+                 user='default',
+                 password='')
+ ph.to_clickhouse(df, 'lentaRSS1', index=False, chunksize=100000, connection=connection)
+#Если были дубликаты - удаляем
+ client.command('OPTIMIZE TABLE lentaRSS1 FINAL DEDUPLICATE')
 
 
 with DAG (dag_id="lenta_parcer_dag", start_date=datetime(2023, 1, 23), schedule="0 0 * * *") as dag:

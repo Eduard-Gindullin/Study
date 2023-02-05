@@ -12,7 +12,7 @@ connection = dict(database='default',
                   user='default',
                   password='')
 last_published = client.command('Select * from vedomostiRSS where published IN (SELECT MAX(`published`) as `time` FROM `vedomostiRSS`)')
-# Подключаемся к БД
+# Узнаем когда была последняя публикация
 time = last_published[4]
 
 # Парсим все что нам готова дать RSS
