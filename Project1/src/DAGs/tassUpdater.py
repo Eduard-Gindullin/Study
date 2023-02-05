@@ -6,9 +6,9 @@ import pandas as pd
 import numpy as np
 
 # Подключаемся к БД
-client = clickhouse_connect.get_client(host='localhost', username='default', password='')
+client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
 connection = dict(database='default',
-                  host='http://localhost:8123',
+                  host='http://192.168.3.18:8123',
                   user='default',
                   password='')
 last_published = client.command('Select * from tassRSS where published IN (SELECT MAX(`published`) as `time` FROM `tassRSS`)')
