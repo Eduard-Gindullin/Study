@@ -3,7 +3,7 @@ import clickhouse_connect
 import pandas as pd
 import clickhouse2pandas as ch2pd
 
-connection_url = 'http://default:@localhost:8123'
+connection_url = 'http://default:@192.168.3.18:8123'
 query1 = 'select * from vedomostiRSS limit 10000'
 query2 = 'select * from lentaRSS limit 10000'
 query3 = 'select * from tassRSS limit 10000'
