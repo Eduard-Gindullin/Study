@@ -10,6 +10,13 @@ import pandas as pd
 import numpy as np
 import feedparser
 
+## DB Connect
+connection = dict(database='default',
+                 host='http://192.168.3.18:8123',
+                 user='default',
+                 password='')
+client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
+
 
 ##  ЛЕНТА
 ## 
@@ -41,12 +48,9 @@ def lentaParcer():
 (Lenta_df['tags'] == 'Спорт и здоровье')]
  choices1 = [1,2,3,4,5,6,7,8]
  Lenta_df['category_id'] = np.select(conditions1, choices1, default=0)
- client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
+# Создаем таблицу
  client.command('CREATE TABLE IF NOT EXISTS lentaRSS (title String, link String,tags String, category_id Int32, published DateTime) ENGINE MergeTree ORDER BY published')
- connection = dict(database='default',
-                 host='http://192.168.3.18:8123',
-                 user='default',
-                 password='')
+# Записываем в таблицу полученные данные
  ph.to_clickhouse(Lenta_df, 'lentaRSS', index=False, chunksize=100000, connection=connection)
 #Если были дубликаты - удаляем
  client.command('OPTIMIZE TABLE lentaRSS FINAL DEDUPLICATE')
@@ -80,12 +84,9 @@ def tassParcer():
 (Tass_df['tags'] == 'Спорт и здоровье')]
  choices1 = [1,2,3,4,5,6,7,8]
  Tass_df['category_id'] = np.select(conditions1, choices1, default=0)
- client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
+ # Создаем таблицу
  client.command('CREATE TABLE IF NOT EXISTS tassRSS (title String, link String,tags String, category_id Int32, published DateTime) ENGINE MergeTree ORDER BY published')
- connection = dict(database='default',
-                 host='http://192.168.3.18:8123',
-                 user='default',
-                 password='')
+# Записываем в таблицу полученные данные
  ph.to_clickhouse(Tass_df, 'tassRSS', index=False, chunksize=100000, connection=connection)
 #Если были дубликаты - удаляем
  client.command('OPTIMIZE TABLE tassRSS FINAL DEDUPLICATE')
@@ -119,18 +120,15 @@ def vedomostiParcer():
 (Vedomosti_df['tags'] == 'Спорт и здоровье')]
  choices1 = [1,2,3,4,5,6,7,8]
  Vedomosti_df['category_id'] = np.select(conditions1, choices1, default=0)
- client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
+ # Создаем таблицу
  client.command('CREATE TABLE IF NOT EXISTS vedomostiRSS (title String, link String,tags String, category_id Int32, published DateTime) ENGINE MergeTree ORDER BY published')
- connection = dict(database='default',
-                 host='http://192.168.3.18:8123',
-                 user='default',
-                 password='')
+# Записываем в таблицу полученные данные
  ph.to_clickhouse(Vedomosti_df, 'vedomostiRSS', index=False, chunksize=100000, connection=connection)
 #Если были дубликаты - удаляем
  client.command('OPTIMIZE TABLE vedomostiRSS FINAL DEDUPLICATE')
 
 #Напишем даги
-with DAG (dag_id="news_parcer_dag", start_date=datetime(2023, 1, 23), schedule='@once') as dag:
+with DAG (dag_id="news_parcer_dag", start_date=datetime(2023, 1, 23), catchup=False, schedule='@once') as dag:
     start = BashOperator(task_id="we_start", bash_command="echo pocess started")
     LentaInit = PythonOperator(task_id="Lenta", python_callable = lentaParcer)
     TassInit = PythonOperator(task_id="Tass", python_callable = tassParcer)

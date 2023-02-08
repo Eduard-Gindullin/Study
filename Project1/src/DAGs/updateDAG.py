@@ -10,16 +10,16 @@ import pandas as pd
 import numpy as np
 import feedparser
 
-
+##Подключаемся к БД
+client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
+connection = dict(database='default',
+                   host='http://192.168.3.18:8123',
+                   user='default',
+                   password='')
 ##  ЛЕНТА
 ## 
 def lentaUpdater():
 # Подключаемся к БД
- client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
- connection = dict(database='default',
-                   host='http://192.168.3.18:8123',
-                   user='default',
-                   password='')
  last_published = client.command('Select * from lentaRSS where published IN (SELECT MAX(`published`) as `time` FROM `lentaRSS`)')
 # Узнаем когда была последняя публикация
  time = last_published[4]
@@ -65,11 +65,6 @@ def lentaUpdater():
 ##
 def tassUpdater():
 # Подключаемся к БД
- client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
- connection = dict(database='default',
-                   host='http://192.168.3.18:8123',
-                   user='default',
-                   password='')
  last_published = client.command('Select * from tassRSS where published IN (SELECT MAX(`published`) as `time` FROM `tassRSS`)')
 # Узнаем когда была последняя публикация
  time = last_published[4]
@@ -112,11 +107,6 @@ def tassUpdater():
 ##
 def vedomostiUpdater():
 # Подключаемся к БД
- client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
- connection = dict(database='default',
-                   host='http://192.168.3.18:8123',
-                   user='default',
-                   password='')
  last_published = client.command('Select * from vedomostiRSS where published IN (SELECT MAX(`published`) as `time` FROM `vedomostiRSS`)')
 # Узнаем когда была последняя публикация
  time = last_published[4]
@@ -154,7 +144,7 @@ def vedomostiUpdater():
 
  print(VedomostiNew_df)
 
-with DAG (dag_id="news_updater_dag", start_date=datetime(2023, 2, 5), schedule="*/2 * * * *") as dag:
+with DAG (dag_id="news_updater_dag", start_date=datetime(2023, 2, 5), catchup=False, schedule="*/2 * * * *") as dag:
     startUpdate = BashOperator(task_id="we_start_update", bash_command="echo update started")
     LentaUpdate = PythonOperator(task_id="Lenta_update", python_callable = lentaUpdater)
     TassUpdate = PythonOperator(task_id="Tass_update", python_callable = tassUpdater)
