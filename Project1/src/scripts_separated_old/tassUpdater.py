@@ -11,19 +11,17 @@ connection = dict(database='default',
                   host='http://192.168.3.18:8123',
                   user='default',
                   password='')
-last_published = client.command('Select * from lentaRSS where published IN (SELECT MAX(`published`) as `time` FROM `lentaRSS`)')
+last_published = client.command('Select * from tassRSS where published IN (SELECT MAX(`published`) as `time` FROM `tassRSS`)')
 # Узнаем когда была последняя публикация
 time = last_published[4]
 
-# Парсим все что нам готова дать RSS
-d = feedparser.parse('https://lenta.ru/rss/')
+#Парсим все что нам готова дать RSS
+d = feedparser.parse('https://tass.ru/rss/v2.xml')
 data_list = []
 for i in d['entries']:
-    data_list.append([i["summary"],i["link"],i["tags"][0].term,i["published"]])
-df = pd.DataFrame(data_list, columns=["summary","link","tags","published"])
+    data_list.append([i["title"],i["link"],i["tags"][0].term,i["published"]])
+df = pd.DataFrame(data_list, columns=["title","link","tags","published"])
 df['published'] = df['published'].astype('datetime64[ns]')
-# Переименуем колонку для приведения к общему виду
-df = df.rename(columns={'summary': 'title'})
 
 # Копируем классификатор по категориям
 conditions = [(df['tags'] == 'Политика') , (df['tags'] == 'Общество'), (df['tags'] == 'Бизнес'), (df['tags'] == 'Экономика'), (df['tags'] == 'Финансы'), (df['tags'] == 'Медиа'), (df['tags'] == 'Авто'), (df['tags'] == 'Политика / Власть'), 
@@ -46,7 +44,7 @@ df['category_id'] = np.select(conditions1, choices1, default=0)
 # Делаем выборку из спарсеного ДФ по дате и времени публикации, забираем 
 # только новое и дописываем в БД
 df1 = df[df['published'] > time]
-ph.to_clickhouse(df1, 'lentaRSS', index=False, chunksize=100000, connection=connection)
-client.command('OPTIMIZE TABLE lentaRSS FINAL DEDUPLICATE')
+ph.to_clickhouse(df1, 'tassRSS', index=False, chunksize=100000, connection=connection)
+client.command('OPTIMIZE TABLE vedomostiRSS FINAL DEDUPLICATE')
 
 print(df1)

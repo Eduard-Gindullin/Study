@@ -80,6 +80,18 @@ variables = {'category_id':[0, 1, 2, 3, 4, 5, 6, 7],
 DataMart = pd.DataFrame(variables)
 
 DataMart.set_index('category_id', inplace=True)
-DataMart = DataMart.T
 
-print(DataMart)
+
+#Создадим табличку в БД и запишем наши данные
+client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
+client.command('DROP TABLE DataMart')
+client.command('CREATE TABLE IF NOT EXISTS DataMart (category_id Int32, category_name String, total_category_count Float32, total_category_count_vedomosti Float32, total_category_count_lenta Float32, total_category_count_tass Float32, day_category_count_vedomosti Float32, day_category_count_lenta Float32, day_category_count_tass Float32, mean_category_daily Float32, max_category_count_day DateTime, category_count_Monday Int32, category_count_Tuesday Int32, category_count_Wednesday Int32, category_count_Thursday Int32, category_count_Friday Int32, category_count_Saturday Int32, category_count_Sunday Int32) ENGINE MergeTree ORDER BY category_name')
+connection = dict(database='default',
+                  host='http://192.168.3.18:8123',
+                  user='default',
+                  password='')
+ph.to_clickhouse(DataMart, 'DataMart', index=False, chunksize=100000, connection=connection)
+#сли были дубликаты - удаляем
+client.command('OPTIMIZE TABLE DataMart FINAL DEDUPLICATE') 
+
+print(DataMart.T)

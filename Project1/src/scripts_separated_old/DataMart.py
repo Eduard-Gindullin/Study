@@ -68,6 +68,18 @@ variables = {'category_id':2,
              'category_count_Saturday':category_count_byWeekDay['Saturday'],
              'category_count_Sunday':category_count_byWeekDay['Sunday']}
 
-DataMart = pd.DataFrame(variables, index=[1]).T
-
+DataMart = pd.DataFrame(variables).T
+DataMart.set_index('category_id', inplace=True)
+# DataMart = DataMart.T
+# t = DataMart.index.tolist()
+# Создадим табличку в БД и запишем наши данные
+# client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
+# client.command('CREATE TABLE IF NOT EXISTS DataMart (t String, link String,tags String, category_id Int32, published DateTime) ENGINE MergeTree ORDER BY title')
+# connection = dict(database='default',
+#                   host='http://192.168.3.18:8123',
+#                   user='default',
+#                   password='')
+# ph.to_clickhouse(DataMart, 'DataMart', index=True, chunksize=100000, connection=connection)
+#сли были дубликаты - удаляем
+# client.command('OPTIMIZE TABLE DataMart FINAL DEDUPLICATE') columns.tolist() .columns.tolist()
 print(DataMart)
