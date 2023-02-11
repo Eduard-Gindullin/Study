@@ -9,6 +9,7 @@ import clickhouse_connect
 import pandas as pd
 import numpy as np
 import feedparser
+import json
 
 ## DB Connect
 connection = dict(database='default',
@@ -30,6 +31,13 @@ def lentaParcer():
  Lenta_df['published'] = Lenta_df['published'].astype('datetime64[ns]')
 # Переименуем колонку для приведения к общему виду
  Lenta_df = Lenta_df.rename(columns={'summary': 'title'})
+
+ # Запишем промежуточные данные в файлы
+ with open('rawDataLenta.json', 'w', encoding='utf-8') as fp:
+     json.dump(Lenta, fp, ensure_ascii=False)
+
+ with open('MidDataLenta.json', 'w', encoding='utf-8') as fp:
+     json.dump(Lenta_list, fp, ensure_ascii=False)
 
 # Создаем классификатор по категориям
  conditions = [(Lenta_df['tags'] == 'Политика') , (Lenta_df['tags'] == 'Общество'), (Lenta_df['tags'] == 'Бизнес'), (Lenta_df['tags'] == 'Экономика'), (Lenta_df['tags'] == 'Финансы'), (Lenta_df['tags'] == 'Медиа'), (Lenta_df['tags'] == 'Авто'), (Lenta_df['tags'] == 'Политика / Власть'), 
@@ -67,6 +75,13 @@ def tassParcer():
  Tass_df = pd.DataFrame(Tass_list, columns=["title","link","tags","published"])
  Tass_df['published'] = Tass_df['published'].astype('datetime64[ns]')
 
+  # Запишем промежуточные данные в файлы
+ with open('rawDataTass.json', 'w', encoding='utf-8') as fp:
+     json.dump(Tass, fp, ensure_ascii=False)
+
+ with open('MidDataTass.json', 'w', encoding='utf-8') as fp:
+     json.dump(Tass_list, fp, ensure_ascii=False)
+
 # Создаем классификатор по категориям
  conditions = [(Tass_df['tags'] == 'Политика') , (Tass_df['tags'] == 'Общество'), (Tass_df['tags'] == 'Бизнес'), (Tass_df['tags'] == 'Экономика'), (Tass_df['tags'] == 'Финансы'), (Tass_df['tags'] == 'Медиа'), (Tass_df['tags'] == 'Авто'), (Tass_df['tags'] == 'Политика / Власть'), 
 (Tass_df['tags'] == 'Политика / Международные отношения'), (Tass_df['tags'] == 'Технологии'), (Tass_df['tags'] == 'Среда обитания'), (Tass_df['tags'] == 'Недвижимость'), (Tass_df['tags'] == 'Экономика и бизнес'), (Tass_df['tags'] == 'Армия и ОПК'), (Tass_df['tags'] == 'Происшествия'),
@@ -102,6 +117,13 @@ def vedomostiParcer():
     Vedomosti_list.append([i["title"],i["link"],i["tags"][0].term,i["published"]])
  Vedomosti_df = pd.DataFrame(Vedomosti_list, columns=["title","link","tags","published"])
  Vedomosti_df['published'] = Vedomosti_df['published'].astype('datetime64[ns]')
+
+   # Запишем промежуточные данные в файлы
+ with open('rawDataVedomosti.json', 'w', encoding='utf-8') as fp:
+     json.dump(Vedomosti, fp, ensure_ascii=False)
+
+ with open('MidDataVedomosti.json', 'w', encoding='utf-8') as fp:
+     json.dump(Vedomosti_list, fp, ensure_ascii=False)
 
 # Создаем классификатор по категориям
  conditions = [(Vedomosti_df['tags'] == 'Политика') , (Vedomosti_df['tags'] == 'Общество'), (Vedomosti_df['tags'] == 'Бизнес'), (Vedomosti_df['tags'] == 'Экономика'), (Vedomosti_df['tags'] == 'Финансы'), (Vedomosti_df['tags'] == 'Медиа'), (Vedomosti_df['tags'] == 'Авто'), (Vedomosti_df['tags'] == 'Политика / Власть'), 

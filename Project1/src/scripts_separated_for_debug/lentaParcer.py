@@ -4,6 +4,8 @@ import pandahouse as ph
 import clickhouse_connect
 import pandas as pd
 import numpy as np
+import json
+
 
 # Парсим данные
 d = feedparser.parse('https://lenta.ru/rss/')
@@ -14,6 +16,14 @@ df = pd.DataFrame(data_list, columns=["summary","link","tags","published"])
 df['published'] = df['published'].astype('datetime64[ns]')
 # Переименуем колонку для приведения к общему виду
 df = df.rename(columns={'summary': 'title'})
+
+# Запишем промежуточные данные в файлы
+with open('rawDataLenta.json', 'w', encoding='utf-8') as fp:
+    json.dump(d, fp, ensure_ascii=False)
+
+with open('MidDataLenta.json', 'w', encoding='utf-8') as fp:
+    json.dump(data_list, fp, ensure_ascii=False)
+
 
 # Создаем классификатор по категориям
 conditions = [(df['tags'] == 'Политика') , (df['tags'] == 'Общество'), (df['tags'] == 'Бизнес'), (df['tags'] == 'Экономика'), (df['tags'] == 'Финансы'), (df['tags'] == 'Медиа'), (df['tags'] == 'Авто'), (df['tags'] == 'Политика / Власть'), 
@@ -32,6 +42,7 @@ conditions1 = [(df['tags'] == 'Политика'), (df['tags'] == 'Общест�
 (df['tags'] == 'Спорт и здоровье')]
 choices1 = [1,2,3,4,5,6,7,8]
 df['category_id'] = np.select(conditions1, choices1, default=0)
+
 
 # Создадим табличку в БД и запишем наши данные
 client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
