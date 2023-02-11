@@ -35,6 +35,8 @@ Scala или Phython?
 
 ![airflowonVM](https://user-images.githubusercontent.com/115062813/218248104-6f6c1eb8-f268-4e2b-91f3-219462237245.jpg)
 
+DevOps часть закончена! Ура!
+Следующий этап - сбор данных с источников и запись их в промежуточную БД.
 
 
 
