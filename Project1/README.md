@@ -48,5 +48,9 @@ DevOps часть закончена! Ура!
 Сами файлы запишем отдельно, для последующего debug в раздел https://github.com/Eduard-Gindullin/DE_Sprint-master/tree/master/Project1/src/scripts_separated_for_debug 
 ![parcer](https://user-images.githubusercontent.com/115062813/218248901-51797be5-4c32-426f-b1c3-6da32acc204c.jpg)
 
+Получили 3 таблицы вот такого вида:
+![tables](https://user-images.githubusercontent.com/115062813/218249726-40e71508-f1d6-4c24-95be-099f7504ed7f.jpg)
+
+
 
 
