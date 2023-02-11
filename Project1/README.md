@@ -28,6 +28,7 @@ Scala или Phython?
 
 2) Для того чтобы смотреть что у нас происходит в ДБ поставим DBeaver и настроим связь с Clickhouse
 
-![dbeaver](https://user-images.githubusercontent.com/115062813/218247350-e2099831-3719-4b27-a006-75254af08823.jpg)
+
+![dbeaver](https://user-images.githubusercontent.com/115062813/218247373-a520b14b-83db-4e40-a614-c7f8ccf0a603.jpg)
 
 
