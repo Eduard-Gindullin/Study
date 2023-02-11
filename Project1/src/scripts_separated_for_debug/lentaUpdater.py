@@ -20,9 +20,10 @@ d = feedparser.parse('https://lenta.ru/rss/')
 data_list = []
 for i in d['entries']:
      data_list.append([i["summary"],i["link"], i['tags'][0].term, i["published"]])
-df = pd.DataFrame(data_list, columns=["summary","link","tags","published"])
+df = pd.DataFrame(data_list, columns=["summary","link", "tags","published"])
 df['published'] = df['published'].astype('datetime64[ns]')
 # Переименуем колонку для приведения к общему виду
+#  "tags",
 df = df.rename(columns={'summary': 'title'})        
 print(data_list)
 # Копируем классификатор по категориям
