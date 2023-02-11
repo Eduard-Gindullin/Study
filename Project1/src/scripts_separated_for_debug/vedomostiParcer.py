@@ -4,6 +4,7 @@ import pandahouse as ph
 import clickhouse_connect
 import pandas as pd
 import numpy as np
+import json
 
 # Парсим данные
 d = feedparser.parse('https://www.vedomosti.ru/rss/news')
@@ -12,6 +13,13 @@ for i in d['entries']:
     data_list.append([i["title"],i["link"],i["tags"][0].term,i["published"]])
 df = pd.DataFrame(data_list, columns=["title","link","tags","published"])
 df['published'] = df['published'].astype('datetime64[ns]')
+
+# Запишем промежуточные данные в файлы
+with open('rawDataVedomosti.json', 'w', encoding='utf-8') as fp:
+    json.dump(d, fp, ensure_ascii=False)
+
+with open('MidDataVedomosti.json', 'w', encoding='utf-8') as fp:
+    json.dump(data_list, fp, ensure_ascii=False)
 
 # Создаем классификатор по категориям
 conditions = [(df['tags'] == 'Политика') , (df['tags'] == 'Общество'), (df['tags'] == 'Бизнес'), (df['tags'] == 'Экономика'), (df['tags'] == 'Финансы'), (df['tags'] == 'Медиа'), (df['tags'] == 'Авто'), (df['tags'] == 'Политика / Власть'), 
