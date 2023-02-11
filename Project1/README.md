@@ -25,3 +25,8 @@ Scala или Phython?
 1) в Docker установим Clickhouse. 
 
 ![clickhouse_up](https://user-images.githubusercontent.com/115062813/218247166-ea45b2ca-970e-401b-a81f-7d532b35c0ac.jpg)
+
+2) Для того чтобы смотреть что у нас происходит в ДБ поставим DBeaver и настроим связь с Clickhouse
+
+![dbeaver](https://user-images.githubusercontent.com/115062813/218247312-37e4a2ad-9d7a-4014-9d05-57a540ad064c.jpg)
+
