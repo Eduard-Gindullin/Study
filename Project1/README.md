@@ -38,5 +38,9 @@ Scala или Phython?
 DevOps часть закончена! Ура!
 Следующий этап - сбор данных с источников и запись их в промежуточную БД.
 
+Для парсинга данных используем специализированную библиотеку feedparcer https://feedparser.readthedocs.io/en/latest/ 
+Создадим 3 отдельных файла python, которые будут собирать данные с разных источников, приводить их к общему знаменателю и записывать в 3 различные таблицы.
+Сами файлы запишем отдельно, для последующего debug в раздел https://github.com/Eduard-Gindullin/DE_Sprint-master/tree/master/Project1/src/scripts_separated_for_debug 
+![parcer](https://user-images.githubusercontent.com/115062813/218248901-51797be5-4c32-426f-b1c3-6da32acc204c.jpg)
 
 
