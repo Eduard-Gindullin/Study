@@ -51,8 +51,11 @@ DevOps часть закончена! Ура!
 
 Сохраним спарсенные данные в файле на диске в сыром виде и с промежуточной обработкой в json формате. 
 
+На каждом этапе здесь и далее проводим контроль входных и выходных данных. Пустых полей быть не должно. 
+
 Сами файлы запишем отдельно, для последующего debug в раздел https://github.com/Eduard-Gindullin/DE_Sprint-master/tree/master/Project1/src/scripts_separated_for_debug 
-![parcer](https://user-images.githubusercontent.com/115062813/218255650-91716540-6200-4b82-a304-883b4c385c6f.jpg)
+![parcer](https://user-images.githubusercontent.com/115062813/218259643-4edc8913-ae25-477e-b9c9-2fd934d95e88.jpg)
+
 
 
 Получили 3 таблицы вот такого вида:
