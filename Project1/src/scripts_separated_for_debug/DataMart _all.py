@@ -22,6 +22,19 @@ Tass.insert(0, "Source", 'Tass')
 Temp = pd.merge(Vedomosti,Lenta, how='outer')
 News = pd.merge(Temp,Tass, how='outer').sort_values('published')
 
+# Сразу сделаем контроль, что все у нас нормально записалось и нет съехавших значений
+# Если есть - удаляем строку
+News.dropna()
+
+# Создадим табличку в БД и запишем наши данные по всем новостям
+client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')
+client.command('CREATE TABLE IF NOT EXISTS allNews (Source String, title String, link String,tags String, category_id Int32, published DateTime) ENGINE MergeTree ORDER BY published')
+connection = dict(database='default',
+                  host='http://192.168.3.18:8123',
+                  user='default',
+                  password='')
+ph.to_clickhouse(News, 'allNews', index=False, chunksize=1000000, connection=connection)
+
  # Общее количество новостей по категориям за все время со всех источников
 total_category_count = News['category_id'].value_counts()
 
