@@ -23,4 +23,4 @@ Scala или Phython?
 
 Выполнение:
 1) в Docker установим Clickhouse. 
-![alt text](https://github.com/Eduard-Gindullin/DE_Sprint-master/tree/master/Project1/screenshots/clickhouse_up.jpg?raw=true)
+![plot](https://github.com/Eduard-Gindullin/DE_Sprint-master/tree/master/Project1/screenshots/clickhouse_up.jpg?raw=true)
