@@ -76,5 +76,9 @@ DevOps часть закончена! Ура!
 
 ![DataMart](https://user-images.githubusercontent.com/115062813/218252190-de8bbf18-d5e6-4323-bb48-6f79e0f3b8ec.jpg)
 
+Ну и запишем информацию в табличку БД
 
+![DataMart1](https://user-images.githubusercontent.com/115062813/218252316-6261b5fb-16e5-4393-ac98-dec9203b6e5a.jpg)
+
+Задачи выполнены! Цели достигнуты
 
