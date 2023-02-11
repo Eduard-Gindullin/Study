@@ -33,9 +33,8 @@ Scala или Phython?
 
 3) Так как docker образ airflow не умеет работать с clickhouse у нас есть два выхода: собрать собственный образ с необходимыми библиотеками либо поднять "боевой" инстанс с airflow. Решено было сделать отдельную ВМ на Hyper-V с Ubuntu desktop и на ней поставить Airflow + Python + библиотеки.
 
+![airflowonVM](https://user-images.githubusercontent.com/115062813/218248104-6f6c1eb8-f268-4e2b-91f3-219462237245.jpg)
 
-
-![airflowonVM](https://user-images.githubusercontent.com/115062813/218248072-432468a4-05de-45c8-92ce-25e2d3fbc28f.jpg)
 
 
 
