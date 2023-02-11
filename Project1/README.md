@@ -88,7 +88,8 @@ DevOps часть закончена! Ура!
 ![DataMart1](https://user-images.githubusercontent.com/115062813/218252316-6261b5fb-16e5-4393-ac98-dec9203b6e5a.jpg)
 
 Получившиеся данные со всех источников сохраним:
-![parcer](https://user-images.githubusercontent.com/115062813/218259921-62727d09-86e9-4360-b284-8f4442a58c37.jpg)
+
+![allNews](https://user-images.githubusercontent.com/115062813/218259964-0c878f40-d5e2-4d9f-bbd7-b38bf1aaed16.jpg)
 
 
 Задачи выполнены! Цели достигнуты
