@@ -32,6 +32,10 @@ def lentaParcer():
 # Переименуем колонку для приведения к общему виду
  Lenta_df = Lenta_df.rename(columns={'summary': 'title'})
 
+ # Сразу сделаем контроль, что все у нас нормально записалось и нет съехавших значений
+ # Если есть - удаляем строку
+ Lenta_df.dropna()
+
  # Запишем промежуточные данные в файлы
  with open('rawDataLenta.json', 'w', encoding='utf-8') as fp:
      json.dump(Lenta, fp, ensure_ascii=False)
@@ -56,6 +60,9 @@ def lentaParcer():
 (Lenta_df['tags'] == 'Спорт и здоровье')]
  choices1 = [1,2,3,4,5,6,7,8]
  Lenta_df['category_id'] = np.select(conditions1, choices1, default=0)
+ # Повторим контроль, перед записью в БД
+ # Если есть пустые - удаляем строку
+ Lenta_df.dropna()
 # Создаем таблицу
  client.command('CREATE TABLE IF NOT EXISTS lentaRSS (title String, link String,tags String, category_id Int32, published DateTime) ENGINE MergeTree ORDER BY published')
 # Записываем в таблицу полученные данные
@@ -75,7 +82,11 @@ def tassParcer():
  Tass_df = pd.DataFrame(Tass_list, columns=["title","link","tags","published"])
  Tass_df['published'] = Tass_df['published'].astype('datetime64[ns]')
 
-  # Запишем промежуточные данные в файлы
+# Сразу сделаем контроль, что все у нас нормально записалось и нет съехавших значений
+# Если есть - удаляем строку
+ Tass_df.dropna()
+
+# Запишем промежуточные данные в файлы
  with open('rawDataTass.json', 'w', encoding='utf-8') as fp:
      json.dump(Tass, fp, ensure_ascii=False)
 
@@ -99,6 +110,9 @@ def tassParcer():
 (Tass_df['tags'] == 'Спорт и здоровье')]
  choices1 = [1,2,3,4,5,6,7,8]
  Tass_df['category_id'] = np.select(conditions1, choices1, default=0)
+ # Повторим контроль, перед записью в БД
+ # Если есть пустые - удаляем строку
+ Tass_df.dropna()
  # Создаем таблицу
  client.command('CREATE TABLE IF NOT EXISTS tassRSS (title String, link String,tags String, category_id Int32, published DateTime) ENGINE MergeTree ORDER BY published')
 # Записываем в таблицу полученные данные
@@ -117,6 +131,10 @@ def vedomostiParcer():
     Vedomosti_list.append([i["title"],i["link"],i["tags"][0].term,i["published"]])
  Vedomosti_df = pd.DataFrame(Vedomosti_list, columns=["title","link","tags","published"])
  Vedomosti_df['published'] = Vedomosti_df['published'].astype('datetime64[ns]')
+
+# Сразу сделаем контроль, что все у нас нормально записалось и нет съехавших значений
+# Если есть - удаляем строку
+ Vedomosti_df.dropna()
 
    # Запишем промежуточные данные в файлы
  with open('rawDataVedomosti.json', 'w', encoding='utf-8') as fp:
@@ -142,6 +160,9 @@ def vedomostiParcer():
 (Vedomosti_df['tags'] == 'Спорт и здоровье')]
  choices1 = [1,2,3,4,5,6,7,8]
  Vedomosti_df['category_id'] = np.select(conditions1, choices1, default=0)
+# Повторим контроль, перед записью в БД
+# Если есть пустые - удаляем строку
+ Vedomosti_df.dropna()
  # Создаем таблицу
  client.command('CREATE TABLE IF NOT EXISTS vedomostiRSS (title String, link String,tags String, category_id Int32, published DateTime) ENGINE MergeTree ORDER BY published')
 # Записываем в таблицу полученные данные

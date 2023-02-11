@@ -14,6 +14,10 @@ for i in d['entries']:
 df = pd.DataFrame(data_list, columns=["title","link","tags","published"])
 df['published'] = df['published'].astype('datetime64[ns]')
 
+# Сразу сделаем контроль, что все у нас нормально записалось и нет съехавших значений
+# Если есть - удаляем строку
+df.dropna()
+
 # Запишем промежуточные данные в файлы
 with open('rawDataVedomosti.json', 'w', encoding='utf-8') as fp:
     json.dump(d, fp, ensure_ascii=False)
@@ -38,6 +42,10 @@ conditions1 = [(df['tags'] == 'Политика'), (df['tags'] == 'Общест�
 (df['tags'] == 'Спорт и здоровье')]
 choices1 = [1,2,3,4,5,6,7,8]
 df['category_id'] = np.select(conditions1, choices1, default=0)
+
+# Повторим контроль, перед записью в БД
+# Если есть - удаляем строку
+df.dropna()
 
 # Создадим табличку в БД и запишем наши данные
 client = clickhouse_connect.get_client(host='192.168.3.18', username='default', password='')

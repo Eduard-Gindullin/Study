@@ -34,6 +34,10 @@ def lentaUpdater():
 # Переименуем колонку для приведения к общему виду
  Lenta_df = Lenta_df.rename(columns={'summary': 'title'})
 
+# Сразу сделаем контроль, что все у нас нормально записалось и нет съехавших значений
+# Если есть - удаляем строку
+ Lenta_df.dropna()
+
 # Создаем классификатор по категориям
  conditions = [(Lenta_df['tags'] == 'Политика') , (Lenta_df['tags'] == 'Общество'), (Lenta_df['tags'] == 'Бизнес'), (Lenta_df['tags'] == 'Экономика'), (Lenta_df['tags'] == 'Финансы'), (Lenta_df['tags'] == 'Медиа'), (Lenta_df['tags'] == 'Авто'), (Lenta_df['tags'] == 'Политика / Власть'), 
 (Lenta_df['tags'] == 'Политика / Международные отношения'), (Lenta_df['tags'] == 'Технологии'), (Lenta_df['tags'] == 'Среда обитания'), (Lenta_df['tags'] == 'Недвижимость'), (Lenta_df['tags'] == 'Экономика и бизнес'), (Lenta_df['tags'] == 'Армия и ОПК'), (Lenta_df['tags'] == 'Происшествия'),
@@ -52,6 +56,9 @@ def lentaUpdater():
  choices1 = [1,2,3,4,5,6,7,8]
  Lenta_df['category_id'] = np.select(conditions1, choices1, default=0)
 
+# Повторим контроль, перед записью в БД
+# Если есть пустые - удаляем строку
+ Lenta_df.dropna()
 
 # Делаем выборку из спарсеного ДФ по дате и времени публикации, забираем 
 # только новое и дописываем в БД
@@ -77,6 +84,10 @@ def tassUpdater():
  Tass_df = pd.DataFrame(Tass_list, columns=["title","link","tags","published"])
  Tass_df['published'] = Tass_df['published'].astype('datetime64[ns]')
 
+# Сразу сделаем контроль, что все у нас нормально записалось и нет съехавших значений
+# Если есть - удаляем строку
+ Tass_df.dropna()
+
 # Создаем классификатор по категориям
  conditions = [(Tass_df['tags'] == 'Политика') , (Tass_df['tags'] == 'Общество'), (Tass_df['tags'] == 'Бизнес'), (Tass_df['tags'] == 'Экономика'), (Tass_df['tags'] == 'Финансы'), (Tass_df['tags'] == 'Медиа'), (Tass_df['tags'] == 'Авто'), (Tass_df['tags'] == 'Политика / Власть'), 
 (Tass_df['tags'] == 'Политика / Международные отношения'), (Tass_df['tags'] == 'Технологии'), (Tass_df['tags'] == 'Среда обитания'), (Tass_df['tags'] == 'Недвижимость'), (Tass_df['tags'] == 'Экономика и бизнес'), (Tass_df['tags'] == 'Армия и ОПК'), (Tass_df['tags'] == 'Происшествия'),
@@ -94,7 +105,9 @@ def tassUpdater():
 (Tass_df['tags'] == 'Спорт и здоровье')]
  choices1 = [1,2,3,4,5,6,7,8]
  Tass_df['category_id'] = np.select(conditions1, choices1, default=0)
-
+# Повторим контроль, перед записью в БД
+# Если есть пустые - удаляем строку
+ Tass_df.dropna()
 # Делаем выборку из спарсеного ДФ по дате и времени публикации, забираем 
 # только новое и дописываем в БД
  TassNew_df = Tass_df[Tass_df['published'] > time]
@@ -118,6 +131,10 @@ def vedomostiUpdater():
  Vedomosti_df = pd.DataFrame(Vedomosti_list, columns=["title","link","tags","published"])
  Vedomosti_df['published'] = Vedomosti_df['published'].astype('datetime64[ns]')
 
+# Сразу сделаем контроль, что все у нас нормально записалось и нет съехавших значений
+# Если есть - удаляем строку
+ Vedomosti_df.dropna()
+
 # Создаем классификатор по категориям
  conditions = [(Vedomosti_df['tags'] == 'Политика') , (Vedomosti_df['tags'] == 'Общество'), (Vedomosti_df['tags'] == 'Бизнес'), (Vedomosti_df['tags'] == 'Экономика'), (Vedomosti_df['tags'] == 'Финансы'), (Vedomosti_df['tags'] == 'Медиа'), (Vedomosti_df['tags'] == 'Авто'), (Vedomosti_df['tags'] == 'Политика / Власть'), 
 (Vedomosti_df['tags'] == 'Политика / Международные отношения'), (Vedomosti_df['tags'] == 'Технологии'), (Vedomosti_df['tags'] == 'Среда обитания'), (Vedomosti_df['tags'] == 'Недвижимость'), (Vedomosti_df['tags'] == 'Экономика и бизнес'), (Vedomosti_df['tags'] == 'Армия и ОПК'), (Vedomosti_df['tags'] == 'Происшествия'),
@@ -135,7 +152,9 @@ def vedomostiUpdater():
 (Vedomosti_df['tags'] == 'Спорт и здоровье')]
  choices1 = [1,2,3,4,5,6,7,8]
  Vedomosti_df['category_id'] = np.select(conditions1, choices1, default=0)
-
+# Повторим контроль, перед записью в БД
+# Если есть пустые - удаляем строку
+ Vedomosti_df.dropna()
 # Делаем выборку из спарсеного ДФ по дате и времени публикации, забираем 
 # только новое и дописываем в БД
  VedomostiNew_df = Vedomosti_df[Vedomosti_df['published'] > time]
