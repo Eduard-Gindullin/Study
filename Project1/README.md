@@ -49,10 +49,11 @@ DevOps часть закончена! Ура!
 
 Для выполнения задач используем различные библиотеки Python Для clickhouse: clickhouse_connect, pandahouse, clickhouse2pandas для получения результата в одну итерацию без промежуточных преобразований.
 
-Хранить спарсенные данные в файле на диске смысла особого нет, так как они легко извлекаются и имеют ценность только после обработки. А актуальность теряют быстро. Поэтому немного преообразуем данные и запишем в промежуточные таблицы БД.
+Сохраним спарсенные данные в файле на диске в сыром виде и с промежуточной обработкой в json формате. 
 
 Сами файлы запишем отдельно, для последующего debug в раздел https://github.com/Eduard-Gindullin/DE_Sprint-master/tree/master/Project1/src/scripts_separated_for_debug 
-![parcer](https://user-images.githubusercontent.com/115062813/218248901-51797be5-4c32-426f-b1c3-6da32acc204c.jpg)
+![parcer](https://user-images.githubusercontent.com/115062813/218255650-91716540-6200-4b82-a304-883b4c385c6f.jpg)
+
 
 Получили 3 таблицы вот такого вида:
 ![tables](https://user-images.githubusercontent.com/115062813/218249726-40e71508-f1d6-4c24-95be-099f7504ed7f.jpg)
