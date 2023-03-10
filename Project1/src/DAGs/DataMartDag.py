@@ -23,9 +23,9 @@ client = clickhouse_connect.get_client(host='192.168.3.18', username='default', 
 connection_url = 'http://default:@192.168.3.18:8123'
 
 def DataMart():
- query1 = 'select * from vedomostiRSS limit 10000'
- query2 = 'select * from lentaRSS limit 10000'
- query3 = 'select * from tassRSS limit 10000'
+ query1 = 'select * from vedomostiRSS limit 100000'
+ query2 = 'select * from lentaRSS limit 100000'
+ query3 = 'select * from tassRSS limit 100000'
 
 # Забираем данные в Датафреймы
  Vedomosti= ch2pd.select(connection_url, query1)
