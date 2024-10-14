@@ -83,7 +83,99 @@
 # print (type(b))
 
 # 12 Преоброзание строки в число
-a = "15"
-print (type (a))
-b = int(a)
-print (type (b))
+# a = "15"
+# print (type (a))
+# b = int(a)
+# print (type (b))
+
+
+# 13 Логиеские операторы и операторы сравнения
+# a = 10
+# b = 5
+# print ((a > b) and (b < 7))
+# print ((a > 5) or (b < 4))
+
+# 14 Операции с дробями
+# a = 1
+# print (type (a))
+# a = 1 / 3
+# print (type(a))
+# b = 2 / 3
+# result = a + b
+# print (type (result))
+# print (result)
+
+# 15 определение минут и секунд
+# total_seconds = int(input("Введите количество секунд\n"))
+# minutes = total_seconds // 60
+# seconds = total_seconds % 60
+# print (minutes, "Минут", seconds, "Секунд")
+
+# 16 Вставка переменных в строку
+# name = input("Ввведите свое имя\n")
+# age = input ("Введите свой возраст\n")
+# message = "Привет, меня зовуь " + name + ", и мне "+ age + " лет"
+# print (message)
+# print (f"Привет, меня зовут {name}, и мне {age} лет ")
+
+# 17 Длинна строки
+# text = "Hello world"
+# print (len(text))
+
+# #18 Умножение числа на строку
+# text = "Hello"
+# print (text*3)
+
+# 19 Проверка наличия подстрок
+# text = "Hello World"
+# word = "Hello"
+# result = word in text
+# print (result)
+
+# 20 Ивлечение символа по индексу
+# text = "Hello"
+# char = text[1]
+# print (char)
+
+# 21 Ивлечение последнего символа по индексу
+# text = "Hello"
+# char = text[-1]
+# print (char)
+
+# 22 Округление числа
+# number = 5.23456
+# rounded = round(number, 1)
+# print (rounded)
+
+# 23 Сложение строки с числом
+# a = "123"
+# b = 456
+# result = int(a) + b
+# print (result)
+
+# 24 Смена регистра
+# text = "Hello World"
+# lower_text = text.lower()
+# upper_text = text.upper()
+# print(lower_text)
+# print(upper_text)
+
+# 25 Замена символов
+# text = "Hello World"
+# new_text = text.replace("World", "underworld")
+# print(new_text)
+
+# 26 Колличество слов
+# text = "Lorem ipsum odor amet, consectetuer adipiscing elit. Congue nam odio pulvinar odio interdum ridiculus penatibus nullam non inceptos tellus lectus nisi fringilla, inceptos morbi sollicitudin gravida hendrerit torquent dis erat aliquam."
+# print (text.count(" ")+1)
+
+# 27 Мин и макс элемент списка
+# number = [10, 5 , 2, 6]
+# min_number = min(number)
+# max_number = max(number)
+# print ("Мин", min_number, "Микс", max_number)
+
+# 28 Добавление в конец списка
+# numbers = [10, 5 , 2, 6]
+# numbers.append(1)
+# print (numbers)
