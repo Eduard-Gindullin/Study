@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import messagebox
 import random
 import string
-import win32com.client
+#import win32com.client
 
 # Функция для замены букв на похожие спецсимволы и смены регистра
 def transform_password(password):
