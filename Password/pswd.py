@@ -2,14 +2,15 @@ import tkinter as tk
 from tkinter import messagebox
 import random
 import string
-import win32com.client
+# import win32com.client 
+
 
 # Функция для замены букв на похожие спецсимволы и смены регистра
 def transform_password(password):
     replacements = {
-        'a': '@', 'A': '4', 'b': '8', 'B': '8', 'e': '3', 'E': '3',
+        'a': '@', 'A': '4', 
         'i': '!', 'I': '1', 'o': '0', 'O': '0', 's': '$', 'S': '$',
-        't': '7', 'T': '7'
+        
     }
     transformed = ''.join(replacements.get(c, c.swapcase()) for c in password)
     return transformed
@@ -39,12 +40,12 @@ def process_password():
 # Функция для получения политики пароля из групповых политик
 def get_password_policy():
     try:
-        gpo = win32com.client.Dispatch("WScript.Network")
+       # gpo = win32com.client.Dispatch("WScript.Network")
         # Здесь можно добавить код для получения конкретных политик пароля
         # Например, минимальная длина пароля, сложность и т.д.
         # Если не удается получить политики, используем предопределенные значения
         return {
-            "min_length": 8,
+            "min_length": 12,
             "complexity": True
         }
     except Exception as e:
@@ -60,9 +61,9 @@ root.title("Password Transformer")
 
 # Поле для ввода пароля
 password_label = tk.Label(root, text="Enter Password:")
-password_label.pack(pady=5)
+password_label.pack(pady=10)
 password_entry = tk.Entry(root, show="*")
-password_entry.pack(pady=5)
+password_entry.pack(pady=10)
 
 # Кнопка для обработки пароля
 process_button = tk.Button(root, text="Transform Password", command=process_password)
