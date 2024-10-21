@@ -3,6 +3,12 @@ from tkinter import messagebox
 import random
 import string
 
+# Политика паролей
+password_policy = {
+    "min_length": 8,
+    "complexity": True
+}
+
 # Функция для замены букв на похожие спецсимволы и смены регистра
 def transform_password(password):
     replacements = {
@@ -33,8 +39,8 @@ def process_password():
     if not password:
         messagebox.showwarning("Warning", "Please enter a password")
         return
-    if len(password) < 8:
-        password += ''.join(random.choice(string.ascii_letters + string.digits + string.punctuation) for _ in range(8 - len(password)))
+    if len(password) < password_policy["min_length"]:
+        password += ''.join(random.choice(string.ascii_letters + string.digits + string.punctuation) for _ in range(password_policy["min_length"] - len(password)))
     transformed_password = transform_password(password)
     result_label.config(text=f"Transformed Password: {transformed_password}")
 
