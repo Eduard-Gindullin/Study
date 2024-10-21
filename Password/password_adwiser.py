@@ -3,64 +3,61 @@ from tkinter import messagebox
 import random
 import string
 
-# Функция для усложнения пароля
-def enhance_password(password):
-    min_length = 8
-    max_length = 16
-    require_uppercase = True
-    require_lowercase = True
-    require_digits = True
-    require_special = True
+# Словарь для замены букв на схожие специальные символы
+char_replacements = {
+    'a': '@', 'A': '@',
+    'b': '8', 'B': '8',
+    'e': '3', 'E': '3',
+    'i': '!', 'I': '!',
+    'l': '1', 'L': '1',
+    'o': '0', 'O': '0',
+    's': '$', 'S': '$',
+    't': '7', 'T': '7'
+}
 
-    # Добавление необходимых символов
-    if require_uppercase and not any(c.isupper() for c in password):
-        password += random.choice(string.ascii_uppercase)
-    if require_lowercase and not any(c.islower() for c in password):
-        password += random.choice(string.ascii_lowercase)
-    if require_digits and not any(c.isdigit() for c in password):
-        password += random.choice(string.digits)
-    if require_special and not any(c in string.punctuation for c in password):
-        password += random.choice(string.punctuation)
-
-    # Удлинение пароля до минимальной длины
-    while len(password) < min_length:
-        password += random.choice(string.ascii_letters + string.digits + string.punctuation)
-
-    # Обрезка пароля до максимальной длины
-    if len(password) > max_length:
-        password = password[:max_length]
-
-    return password
-
-# Функция для обработки ввода пользователя
-def process_password():
-    desired_password = entry.get()
-    if not desired_password:
-        messagebox.showerror("Ошибка", "Введите желаемый пароль")
+# Функция для изменения пароля
+def modify_password():
+    user_password = entry.get()
+    if not user_password:
+        messagebox.showerror("Ошибка", "Введите пароль")
         return
 
-    enhanced_password = enhance_password(desired_password)
+    # Замена букв на схожие специальные символы
+    modified_password = ''.join(char_replacements.get(char, char) for char in user_password)
 
-    # Отображение усложненного пароля
-    result_label.config(text=f"Усложненный пароль: {enhanced_password}")
+    # Случайная замена регистра букв
+    modified_password = ''.join(
+        char.upper() if random.choice([True, False]) else char.lower() for char in modified_password
+    )
+
+    # Проверка длины пароля и добавление символов, если необходимо
+    while len(modified_password) < 8:
+        modified_password += random.choice(string.ascii_letters + string.digits + string.punctuation)
+
+    # Проверка на наличие цифр, букв и специальных символов
+    if not any(char.isdigit() for char in modified_password):
+        modified_password += random.choice(string.digits)
+    if not any(char.isalpha() for char in modified_password):
+        modified_password += random.choice(string.ascii_letters)
+    if not any(char in string.punctuation for char in modified_password):
+        modified_password += random.choice(string.punctuation)
+
+    # Перемешивание символов для большей безопасности
+    modified_password = ''.join(random.sample(modified_password, len(modified_password)))
+
+    messagebox.showinfo("Измененный пароль", f"Ваш измененный пароль: {modified_password}")
 
 # Создание GUI
 root = tk.Tk()
-root.title("Генератор паролей")
+root.title("Изменение пароля")
 
-frame = tk.Frame(root)
-frame.pack(padx=10, pady=10)
+label = tk.Label(root, text="Введите пароль:")
+label.pack(pady=10)
 
-label = tk.Label(frame, text="Введите желаемый пароль:")
-label.pack(pady=5)
+entry = tk.Entry(root, show="*", width=30)
+entry.pack(pady=10)
 
-entry = tk.Entry(frame, show="*")
-entry.pack(pady=5)
-
-generate_button = tk.Button(frame, text="Усложнить пароль", command=process_password)
-generate_button.pack(pady=5)
-
-result_label = tk.Label(frame, text="")
-result_label.pack(pady=5)
+button = tk.Button(root, text="Изменить пароль", command=modify_password)
+button.pack(pady=10)
 
 root.mainloop()
