@@ -47,7 +47,13 @@ def process_password():
 # Функция для генерации пароля по политикам
 def generate_policy_password():
     words = ["apple", "banana", "cherry", "date", "elderberry", "fig", "grape", "honeydew"]
-    password = ''.join(random.choice(words) for _ in range(4))
+    password = ''
+    while len(password) < password_policy["min_length"]:
+        word = random.choice(words)
+        if len(password) + len(word) <= password_policy["min_length"]:
+            password += word
+        else:
+            break
     transformed_password = transform_password(password)
     password_entry.delete(0, tk.END)
     password_entry.insert(0, transformed_password)
