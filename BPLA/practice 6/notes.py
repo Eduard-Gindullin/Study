@@ -27,22 +27,22 @@ def display_notes(notes):
         note = notes[idx - 1]
         print(f"{idx}.{note}")
 
-def delete_note():
-    try:
-       with open("notes.txt", "r", encoding="utf-8") as file:
-           notes = file.readlines():
-           if not notes:
-               print("Заметок пока нет")
-            else:
-            print("Список заметок")
-            display_notes(notes)
-       note_number = int(input("Введите номер для удаления"))
-       if 1 <= note_number <= len(notes):
-           del notes[note_number - 1]
-           with open("notes.txt", "w", encoding="utf-8") as file:
-               file.writelines(notes)
-               print ("Заметка удалена")
-    break
+# def delete_note():
+#     try:
+#        with open("notes.txt", "r", encoding="utf-8") as file:
+#            notes = file.readlines():
+#            if not notes:
+#                print("Заметок пока нет")
+#             else:
+#             print("Список заметок")
+#             display_notes(notes)
+#        note_number = int(input("Введите номер для удаления"))
+#        if 1 <= note_number <= len(notes):
+#            del notes[note_number - 1]
+#            with open("notes.txt", "w", encoding="utf-8") as file:
+#                file.writelines(notes)
+#                print ("Заметка удалена")
+#     break
             
 
 def main_menu():
